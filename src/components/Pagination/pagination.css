@@ -1,0 +1,25 @@
+.pagination-wrapper {
+	display: flex;
+	justify-content: center;
+}
+.active {
+	background-color: rgb(42, 199, 226);
+	color: aliceblue;
+}
+
+.page-btn {
+	border: none;
+	margin: 0 0.5px;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+}
+
+.page-btn.dot {
+	margin: 0;
+	padding-bottom: 16px;
+	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
+	border: none;
+}
