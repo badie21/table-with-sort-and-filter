@@ -1,7 +1,8 @@
 table {
-	width: 1000px;
+	width: 80%;
 	border-collapse: collapse;
 	margin: 50px auto;
+	background-color: #fff;
 }
 
 /* Zebra striping */
@@ -10,7 +11,7 @@ tr:nth-of-type(odd) {
 }
 
 th {
-	background: #3498db;
+	background: #357a9a;
 	color: white;
 	font-weight: bold;
 }
@@ -30,11 +31,56 @@ Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
 and also iPads specifically.
 */
-@media only screen and (max-width: 1040px) {
+
+.sort {
+	display: flex;
+	justify-content: center;
+}
+.sort div {
+	margin-right: 0.7rem;
+}
+.sort:hover {
+	cursor: pointer;
+}
+
+.sort-icons {
+	display: flex;
+	flex-direction: column;
+}
+
+.arrow {
+	border: solid rgb(182, 178, 178);
+	border-width: 0 3px 3px 0;
+	display: inline-block;
+	padding: 3px;
+	background-color: transparent;
+}
+.up {
+	transform: rotate(-135deg);
+	-webkit-transform: rotate(-135deg);
+}
+
+.down {
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+}
+.sort .active {
+	border: solid rgb(62, 62, 150);
+	border-width: 0 3px 3px 0;
+	display: inline-block;
+	padding: 3px;
+}
+.sort-in-mobile {
+	display: none;
+}
+
+@media only screen and (max-width: 1024px) {
 	table {
 		width: 100%;
 	}
+}
 
+@media only screen and (max-width: 780px) {
 	/* Force table to not be like tables anymore */
 	table,
 	thead,
@@ -61,15 +107,16 @@ and also iPads specifically.
 		border: none;
 		border-bottom: 1px solid #eee;
 		position: relative;
-		padding-left: 50%;
+		padding-right: 50%;
+		text-align: right;
 	}
 
-	td:before {
+	td:after {
 		/* Now like a table header */
 		position: absolute;
 		/* Top/left values mimic padding */
 		top: 6px;
-		left: 6px;
+		right: 6px;
 		width: 45%;
 		padding-right: 10px;
 		white-space: nowrap;
@@ -79,38 +126,18 @@ and also iPads specifically.
 		color: #000;
 		font-weight: bold;
 	}
-}
-.sort {
-	display: flex;
-	justify-content: center;
-}
-.sort div {
-	margin-right: 0.7rem;
-}
-.sort:hover {
-	cursor: pointer;
-}
 
-.arrow {
-	border: solid rgb(182, 178, 178);
-	border-width: 0 3px 3px 0;
-	display: inline-block;
-	padding: 3px;
-	background-color: transparent;
-}
-.up {
-	transform: rotate(-135deg);
-	-webkit-transform: rotate(-135deg);
-	margin-left: 0.5rem;
-}
-
-.down {
-	transform: rotate(45deg);
-	-webkit-transform: rotate(45deg);
-}
-.sort .active {
-	border: solid rgb(62, 62, 150);
-	border-width: 0 3px 3px 0;
-	display: inline-block;
-	padding: 3px;
+	.sort-in-mobile {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+	}
+	.sort-in-mobile .sort {
+		width: 45%;
+		display: flex;
+		align-items: center;
+	}
+	.up {
+		margin-left: 0;
+	}
 }

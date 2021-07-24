@@ -1,5 +1,5 @@
 .form-wrapper {
-	width: 1000px;
+	width: 80%;
 	margin: 3rem auto;
 	display: flex;
 	flex-wrap: wrap;
@@ -37,4 +37,19 @@
 	flex-wrap: wrap;
 	justify-content: space-around;
 	min-width: 100%;
+}
+
+@media only screen and (max-width: 1024px) {
+	.form-wrapper {
+		width: 100%;
+	}
+	.filter-form-item {
+		width: 50%;
+		margin-bottom: 0.5rem;
+	}
+}
+@media only screen and (max-width: 480px) {
+	.filter-form-item {
+		width: 100%;
+	}
 }

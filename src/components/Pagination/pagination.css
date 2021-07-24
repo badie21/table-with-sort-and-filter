@@ -1,6 +1,7 @@
 .pagination-wrapper {
 	display: flex;
 	justify-content: center;
+	margin-bottom: 3rem;
 }
 .active {
 	background-color: rgb(42, 199, 226);
@@ -9,10 +10,10 @@
 
 .page-btn {
 	border: none;
-	margin: 0 0.5px;
-	width: 35px;
+	margin: 0 5px;
+	min-width: 35px;
 	height: 35px;
-	border-radius: 50%;
+	cursor: pointer;
 }
 
 .page-btn.dot {
@@ -22,4 +23,5 @@
 	display: flex;
 	align-items: center;
 	border: none;
+	cursor: default;
 }

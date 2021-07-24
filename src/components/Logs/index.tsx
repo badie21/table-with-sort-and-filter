@@ -16,42 +16,80 @@ export interface ShowData {
 	[key: string]: any;
 }
 
+export interface SortState {
+	sort: "asc" | "dsc" | null;
+	field: string;
+}
+
 const Logs: React.FC = () => {
 	const [page, setPage] = useState<number>(1);
 	const [showData, setShowData] = useState<ShowData[] | []>([]);
 	const [countPerPage, setCountPerPage] = useState(10);
 	const [filteredData, setFilteredData] = useState<ShowData[]>([]);
+	const [sort, setSort] = useState<SortState>({ field: "", sort: null });
+	const [loading, setLoading] = useState(false);
 
 	const handePagination = (selectedPage: number) => {
 		setPage(selectedPage);
 	};
 
-	const handleFilter = useCallback((filteredvalues: FilterFormState) => {
-		const entries = Object.entries(filteredvalues);
-		let shows: any = data;
-		shows = shows.map((el: ShowData) => {
-			return { ...el, checked: false };
-		});
+	const changeSort = (field: string): void => {
+		setLoading(true);
+		if (sort.sort) {
+			setSort((prev) => {
+				return {
+					field,
+					sort: prev.sort === "asc" ? "dsc" : "asc",
+				};
+			});
+		} else {
+			setSort({ field, sort: "asc" });
+		}
+	};
 
-		entries.forEach((field) => {
-			if (Array.isArray(data)) {
-				shows = shows.filter((el: ShowData) => {
-					const key: string = field[0];
-					if (el[key].toLowerCase().includes(filteredvalues[key].toLowerCase()))
-						return el;
+	const handleFilter = useCallback(
+		(filteredvalues: FilterFormState) => {
+			setLoading(true);
+			const entries = Object.entries(filteredvalues);
+			let shows: any = data;
+			shows = shows.map((el: ShowData) => {
+				return { ...el, checked: false };
+			});
+
+			entries.forEach((field) => {
+				if (Array.isArray(data)) {
+					shows = shows.filter((el: ShowData) => {
+						const key: string = field[0];
+						if (
+							el[key].toLowerCase().includes(filteredvalues[key].toLowerCase())
+						)
+							return el;
+					});
+				}
+			});
+			if (sort.field) {
+				shows = shows.sort((a: ShowData, b: ShowData) => {
+					if (sort.field === "id") {
+						return sort.sort === "asc" ? a.id - b.id : b.id - a.id;
+					} else {
+						const firstDate = new Date(a.date).getTime();
+						const secondDate = new Date(b.date).getTime();
+						if (firstDate > secondDate) {
+							return sort.sort === "asc" ? 1 : -1;
+						} else {
+							return sort.sort === "asc" ? -1 : 1;
+						}
+					}
 				});
 			}
-		});
-		setFilteredData(shows);
-		setPage(1);
-	}, []);
+			setFilteredData(shows);
+			setPage(1);
+		},
+		[sort]
+	);
 
 	useEffect(() => {
-		console.log("hello");
-
 		if (filteredData) {
-			console.log(page * countPerPage - countPerPage);
-
 			let showingData = filteredData?.slice(
 				page * countPerPage - countPerPage,
 				page * countPerPage - countPerPage + countPerPage
@@ -67,30 +105,20 @@ const Logs: React.FC = () => {
 					}
 				});
 			}
-
 			setShowData(showingData);
+			setLoading(false);
 		}
 	}, [filteredData, page, countPerPage]);
-
-	const handleSort = (field: string, type: string) => {
-		let newRecords = [...filteredData];
-		newRecords = newRecords.sort((a: ShowData, b: ShowData) => {
-			if (field === "id") {
-				return type === "asc" ? a.id - b.id : b.id - a.id;
-			} else {
-				return type === "asc"
-					? new Date(a.date) - new Date(b.date)
-					: new Date(b.date) - new Date(a.date);
-			}
-		});
-		console.log(newRecords);
-		setFilteredData(newRecords);
-	};
 
 	return (
 		<div>
 			<FilterForm handleFilter={handleFilter} />
-			<Table sortFunction={handleSort} dataSource={showData} />
+			<Table
+				loading={loading}
+				sort={sort}
+				changeSort={changeSort}
+				dataSource={showData}
+			/>
 			<Pagination
 				page={page}
 				totalRecord={filteredData?.length}

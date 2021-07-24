@@ -27,47 +27,37 @@ const FilterForm: React.FC<FilterFormProps> = ({ handleFilter }) => {
 	};
 
 	useEffect(() => {
-		const params = window.location.search.substring(1);
-		if (params) {
-			let newParams = params.split("&");
-			const search: any = {};
-			newParams.forEach((el) => {
-				const param = el.split("=");
-				console.log(param);
-				search[param[0]] = param[1];
-			});
-			setInputs((prev) => {
-				return { ...prev, ...search };
-			});
-		}
+		let url = new URL(window.location.href);
+
+		let search_params = url.searchParams;
+
+		const search: any = {};
+		search_params.forEach(function (value, key) {
+			search[key] = value;
+		});
+		setInputs((prev) => {
+			return { ...prev, ...search };
+		});
 	}, []);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			let newParams = "?";
+			const url = new URL(window.location.href);
+			const search_params = url.searchParams;
 			for (const key in inputs) {
 				if (inputs[key]) {
-					const element = inputs[key];
-					console.log(element);
-					newParams += `${key}=${inputs[key]}&`;
+					search_params.set(key, inputs[key]);
+				} else {
+					search_params.delete(key);
 				}
 			}
-
-			newParams = newParams.slice(0, -1);
-
-			const newurl =
-				window.location.protocol +
-				"//" +
-				window.location.host +
-				window.location.pathname +
-				newParams;
-			window.history.pushState({ path: newurl }, "", newurl);
+			const newurl = url.toString();
+			window.history.replaceState({ path: newurl }, "", newurl);
 			handleFilter(inputs);
 		}, 750);
 		return () => {
 			clearTimeout(timer);
 		};
-		// handleFilter(inputs);
 	}, [inputs, handleFilter]);
 
 	return (
