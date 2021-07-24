@@ -1,27 +1,40 @@
 .form-wrapper {
-  width: 750px;
-  padding: 0 50px;
-  margin: 3rem auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+	width: 1000px;
+	margin: 3rem auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .filter-form-item {
-  display: flex;
-  flex-direction: column;
-  width: 25%;
-  padding: 0 1rem;
+	display: flex;
+	flex-direction: column;
+	width: 25%;
+	padding: 0 1rem;
+	position: relative;
 }
 
 .filter-form-item input {
-  /* width: 100px; */
+	/* width: 100px; */
+	border-radius: 3px;
+	border: 0.2px solid rgb(109, 109, 109);
+	height: 2rem;
+	padding: 0.5rem 0.5rem;
+}
+
+.filter-form-item input:focus {
+	border: 2px solid rgb(154, 96, 192);
+}
+
+.filter-form-item label {
+	margin-bottom: 0.3rem;
+	font-size: 14px;
 }
 
 #first-section,
 #second-section {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  min-width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	min-width: 100%;
 }

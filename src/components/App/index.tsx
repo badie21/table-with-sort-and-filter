@@ -1,5 +1,5 @@
+import Logs from "../Logs";
 import "./app.css";
-import Table from "../Table";
 // {
 //         "id": 1,
 //         "name": "Mohammad Esmaeili",
@@ -10,7 +10,7 @@ import Table from "../Table";
 //         "new_value": "تیگو 7 اکسلنت در حد صفر مدل 97"
 //     }
 const App: React.FC = () => {
-  return <Table />;
+	return <Logs />;
 };
 
 export default App;
